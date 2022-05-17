@@ -1,0 +1,5 @@
+HAN early_stop = 5
+    train:
+        loss: -0.017     acc: 84.08
+    test:
+        loss: 0.009     acc: 84.40
