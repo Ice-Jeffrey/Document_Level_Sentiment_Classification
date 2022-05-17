@@ -33,3 +33,5 @@ images/
 models/
 aclImdb/
 dataset/
+
+*.png
