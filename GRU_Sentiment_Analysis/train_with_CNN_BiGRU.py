@@ -2,7 +2,6 @@
 
 import torch
 from torch import nn, optim
-from torch.autograd import Variable
 from torch.utils.data import random_split, DataLoader
 from matplotlib import pyplot as plt
 from dataset import IMDB
@@ -11,7 +10,7 @@ from model import CNN_BiGRU
 
 def train(epochs, use_gpu, optimizer, criterion, net, train_loader, validation_loader):
     train_acc, validation_acc = [], []
-    early_stop, best_loss = 5, 100
+    early_stop, best_loss, best_acc = 8, 100, 0
     for epoch in range(epochs):
         running_loss = 0.0
         train_correct = 0
@@ -26,6 +25,7 @@ def train(epochs, use_gpu, optimizer, criterion, net, train_loader, validation_l
             
             optimizer.zero_grad()
             outputs = net(inputs)
+            
             _, train_predicted = torch.max(outputs.data, dim=1)
             train_correct += (train_predicted == labels).sum()
 
@@ -62,17 +62,21 @@ def train(epochs, use_gpu, optimizer, criterion, net, train_loader, validation_l
         
         if avg_loss < best_loss:
             best_loss = avg_loss
-            early_stop = 5
-            torch.save(net, './models/CNN_GRU.pth')
+            best_acc = acc
+            early_stop = 8
+            torch.save(net, './models/CNN_GRU_{}.pth'.format(early_stop))
         else:
             early_stop -= 1
 
-        if (epoch + 1) % 10 == 0 or early_stop == 0:
+        if (epoch + 1) % 10 == 0:
             print('')
             print('validation on validation set: %d, epoch loss: %.3f,  acc: %.3f \n' %
                   (epoch + 1, validation_loss / validation_total, 100 * correct / validation_total))
-            if early_stop == 0:
-                break
+        elif early_stop == 0:
+            print('')
+            print('validation on validation set: %d, epoch loss: %.3f,  acc: %.3f \n' %
+                  (epoch + 1, best_loss, 100 * best_acc))
+            break
 
     return train_acc, validation_acc
 

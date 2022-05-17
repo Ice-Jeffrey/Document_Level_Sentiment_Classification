@@ -15,7 +15,7 @@ def setup_seed(seed):
     random.seed(seed)
     torch.backends.cudnn.deterministic = True
 # 设置随机数种子
-setup_seed(20)
+# setup_seed(20)
 
 
 class Self_Attention(nn.Module):
@@ -65,10 +65,7 @@ class HAN(nn.Module):
             nn.Tanh()
         )
 
-        self.linear_layer = nn.Sequential(
-            nn.Linear(100, 2),
-            nn.Softmax()
-        )
+        self.linear_layer = nn.Linear(100, 2)
 
         if torch.cuda.is_available():
             self.wattention = self.wattention.cuda()

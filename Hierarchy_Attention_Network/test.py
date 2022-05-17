@@ -37,10 +37,11 @@ def main():
     test_dataloader = DataLoader(test_dataset, shuffle=False, batch_size=50)
     
     use_gpu = torch.cuda.is_available()
-    criterion = nn.NLLLoss()
+    criterion = nn.CrossEntropyLoss()
+    # criterion = nn.NLLLoss()
 
     print("Instantiating models...")
-    net = torch.load('./models/HAN_5.pth')
+    net = torch.load('./models/HAN_8.pth')
     
     avg_loss, test_acc = evaluate(use_gpu, criterion, net, test_dataloader)
     print(avg_loss, test_acc)

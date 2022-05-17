@@ -3,6 +3,7 @@
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
+import torch.nn.functional as F
 from dataset import IMDB
 
 
@@ -40,8 +41,8 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     print("Instantiating models...")
-    # net = torch.load('./models/CNN_GRU.pth')
-    net = torch.load('./models/LSTM_GRU_5.pth')
+    # net = torch.load('./models/CNN_GRU_8.pth')
+    net = torch.load('./models/LSTM_GRU_8.pth')
     
     avg_loss, test_acc = evaluate(use_gpu, criterion, net, test_dataloader)
     print(avg_loss, test_acc)

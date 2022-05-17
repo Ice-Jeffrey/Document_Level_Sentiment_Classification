@@ -17,10 +17,7 @@ class CNN_BiGRU(nn.Module):
         self.pool = nn.AdaptiveAvgPool1d(1)
         self.tanh = nn.Tanh()
         self.gru = nn.GRU(50, hidden_size=16, bidirectional=True)
-        self.linear_layer = nn.Sequential(
-            nn.Linear(32, 2),
-            nn.Softmax()
-        )
+        self.linear_layer = nn.Linear(32, 2)
 
     def CNN(self, input):
         # input: batch * num_of_sentences * length * 200

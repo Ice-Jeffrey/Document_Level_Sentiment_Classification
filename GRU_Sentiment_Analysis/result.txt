@@ -1,11 +1,15 @@
-CNN_GRU early_stop = 5
+CNN_GRU early_stop = 8
     train:
-        loss: 0.011     acc: 71.9
+        stopped at epoch: 35
+    validation:
+        loss: 0.009     acc: 78.52
     test:
-        loss: 0.0107      acc: 76.57
+        loss: 0.009     acc: 78.26
 
-LSTM_GRU early_stop = 5
+LSTM_GRU early_stop = 8
     train:
-        loss: 0.009     acc: 83.7
+        stopped at epoch: 62
+    validation:
+        loss: 0.009     acc: 84.64
     test:
-        loss: 0.009     acc: 83.37
+        loss: 0.009     acc: 83.64

@@ -13,7 +13,7 @@ torch.cuda.empty_cache()
 
 def train(epochs, use_gpu, optimizer, criterion, net, train_loader, validation_loader):
     train_acc, validation_acc = [], []
-    early_stop, best_loss = 5, 100
+    early_stop, best_loss, best_acc = 8, 100, 0
     for epoch in range(epochs):
         running_loss = 0.0
         train_correct = 0
@@ -64,17 +64,21 @@ def train(epochs, use_gpu, optimizer, criterion, net, train_loader, validation_l
         
         if avg_loss < best_loss:
             best_loss = avg_loss
-            early_stop = 5
-            torch.save(net, './models/HAN.pth')
+            best_acc = acc
+            early_stop = 8
+            torch.save(net, './models/HAN_{}.pth'.format(early_stop))
         else:
             early_stop -= 1
 
-        if (epoch + 1) % 10 == 0 or early_stop == 0:
+        if (epoch + 1) % 10 == 0:
             print('')
             print('validation on validation set: %d, epoch loss: %.3f,  acc: %.3f \n' %
                   (epoch + 1, validation_loss / validation_total, 100 * correct / validation_total))
-            if early_stop == 0:
-                break
+        elif early_stop == 0:
+            print('')
+            print('validation on validation set: %d, epoch loss: %.3f,  acc: %.3f \n' %
+                  (epoch + 1, best_loss, 100 * best_acc))
+            break
 
     return train_acc, validation_acc
 
@@ -102,8 +106,10 @@ def main():
     print(network)
 
     # 定义loss和optimizer
-    criterion = nn.NLLLoss()
-    optimizer = optim.SGD(params=network.parameters(), lr=0.01, momentum=0.9, weight_decay=5e-4)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(params=network.parameters(), lr=0.0003, weight_decay=5e-4)
+    # criterion = nn.NLLLoss()
+    # optimizer = optim.SGD(params=network.parameters(), lr=0.01, momentum=0.9, weight_decay=5e-4)
     train_acc, validation_acc = train(epochs, use_gpu, optimizer, criterion, network, train_loader, validation_loader)
     # print(train_acc, validation_acc)
     x = [i + 1 for i in range(len(train_acc))]
