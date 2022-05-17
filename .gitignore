@@ -128,4 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-word2vec/
+./word2vec/
+./images/
+./models
+./aclImdb
+./dataset
