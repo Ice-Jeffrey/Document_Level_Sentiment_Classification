@@ -130,6 +130,6 @@ dmypy.json
 
 ./word2vec/
 ./images/
-./models
-./aclImdb
-./dataset
+./models/
+./aclImdb/
+./dataset/
