@@ -1,4 +1,4 @@
-HAN early_stop = 5
+HAN early_stop = 8
     train:
         stopped at epoch: 24
     validation:
